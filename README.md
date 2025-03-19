@@ -1,2 +1,2 @@
 # movie_app
-movie app using iber-fx
+movie app using uber-fx
