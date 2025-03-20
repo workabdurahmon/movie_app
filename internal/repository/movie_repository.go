@@ -33,9 +33,21 @@ func NewMovieRepository(db *gorm.DB) *movieRepository {
 }
 
 func (r *movieRepository) Create(ctx context.Context, movie *domain.Movie) (*domain.Movie, error) {
-	if err := r.db.WithContext(ctx).Create(movie).Error; err != nil {
-		return nil, ErrCreateMovie
+	err := r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(movie).Error; err != nil {
+			return ErrCreateMovie
+		}
+
+		// If the movie has related entities (e.g., genres, actors),we can save them here
+		// Example: tx.Create(&movie.Actors)
+
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
 	}
+
 	return movie, nil
 }
 
@@ -58,7 +70,18 @@ func (r *movieRepository) GetAll(ctx context.Context) ([]domain.Movie, error) {
 }
 
 func (r *movieRepository) Update(ctx context.Context, movie *domain.Movie) (*domain.Movie, error) {
-	if err := r.db.WithContext(ctx).Save(movie).Error; err != nil {
+	err := r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if err := tx.Save(movie).Error; err != nil {
+			return ErrUpdateMovie
+		}
+
+		// If we need to update related entities, we can do it here
+		// Example: tx.Model(&movie).Association("Actors").Replace(movie.Actors)
+
+		return nil
+	})
+
+	if err != nil {
 		return nil, err
 	}
 
