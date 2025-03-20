@@ -1,0 +1,121 @@
+run:
+  timeout: 5m
+
+linters:
+  enable:
+    - gofmt
+    - golint
+    - govet
+    - errcheck
+    - staticcheck
+    - gosimple
+    - ineffassign
+    - unused
+    - misspell
+    - gocyclo
+    - gosec
+    - goimports
+    - bodyclose
+    - gocritic
+    - gocognit
+    - goconst
+    - godot
+    - godox
+    - goerr113
+    - goheader
+    - gomnd
+    - gomodguard
+    - goprintffuncname
+    - grouper
+    - ifshort
+    - importas
+    - interfacer
+    - lll
+    - loggercheck
+    - maintidx
+    - makezero
+    - nakedret
+    - nestif
+    - nilerr
+    - nilnil
+    - nlreturn
+    - noctx
+    - nolintlint
+    - nosnakecase
+    - prealloc
+    - predeclared
+    - promlinter
+    - revive
+    - rowserrcheck
+    - sqlclosecheck
+    - structcheck
+    - stylecheck
+    - tagliatelle
+    - tparallel
+    - typecheck
+    - unconvert
+    - unparam
+    - varcheck
+    - varnamelen
+    - whitespace
+    - wrapcheck
+    - wsl
+    - zerologlint
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  gocognit:
+    min-complexity: 15
+  gomnd:
+    settings:
+      mnd:
+        checks: argument,case,condition,operation,return,assign
+  govet:
+    check-shadowing: true
+  gosec:
+    excludes:
+      - G404 # Use of weak random number generator
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+      - experimental
+    disabled-checks:
+      - wrapperFunc
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+    - path: internal/hmac/
+      text: "weak cryptographic primitive"
+      linters:
+        - gosec
+    - linters:
+        - gosec
+      text: "G404"
+      path: internal/.*_test\.go
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+path:
+  skip-dirs:
+    - vendor/
+    - third_party/
+    - testdata/
+    - examples/
+    - Godeps/
+    - builtin/
+    - internal/hmac/
