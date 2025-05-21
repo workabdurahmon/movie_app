@@ -23,6 +23,7 @@ func NewRouter(p RouterParams) *gin.Engine {
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	
 	// Public routes
 	router.POST("/api/v1/auth/register", p.UserHandler.Register)
 	router.POST("/api/v1/auth/login", p.UserHandler.Login)
