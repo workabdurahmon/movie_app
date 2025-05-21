@@ -676,8 +676,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "A RESTful API for managing movies with authentication.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
+	// LeftDelim:        "{{",
+	// RightDelim:       "}}",
 }
 
 func init() {
